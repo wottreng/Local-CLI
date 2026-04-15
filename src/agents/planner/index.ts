@@ -20,6 +20,7 @@ import {
   AskUserResponse,
   AskUserCallback,
 } from '../../tools/llm/simple/user-interaction-tools.js';
+import { loadContextFile } from '../../utils/context-loader.js';
 
 /**
  * Planning LLM
@@ -71,6 +72,10 @@ export class PlanningLLM {
       researchUrls = configManager.getConfig().researchUrls;
     } catch { /* config not loaded */ }
     const systemPrompt = buildPlanningSystemPrompt(toolSummary, optionalToolsInfo, getWindowsUserDesktopPath() || undefined, researchUrls);
+    const contextContent = await loadContextFile();
+    const finalSystemPrompt = contextContent
+      ? `${systemPrompt}\n\n## Project Context\n\n${contextContent}`
+      : systemPrompt;
 
     // Track clarification messages (ask_to_user Q&A) to return to caller
     const clarificationMessages: Message[] = [];
@@ -78,7 +83,7 @@ export class PlanningLLM {
     const messages: Message[] = [
       {
         role: 'system',
-        content: systemPrompt,
+        content: finalSystemPrompt,
       },
     ];
 
@@ -418,7 +423,7 @@ Choose one of your 4 tools now.`,
           }
           // Continue to next retry
         } catch (error) {
-          // LLMRetryExhaustedError: chatCompletion()에서 이미 6회 시도 완료 → 즉시 전파
+          // LLMRetryExhaustedError: chatCompletion()  6   →  
           if (error instanceof LLMRetryExhaustedError) {
             throw error;
           }

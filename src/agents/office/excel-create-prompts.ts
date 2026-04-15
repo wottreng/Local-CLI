@@ -39,7 +39,7 @@ Each tool call creates a complete structure — you never deal with individual c
 
 ## WORKFLOW
 
-⚠ SHEET COUNT OVERRIDE: If user requests "한 시트만" / "1 sheet" / "한 장만", do NOT call excel_add_sheet at all. Put all data, formulas, summary, chart on the single default sheet. SKIP step 7 entirely.
+⚠ SHEET COUNT OVERRIDE: If user requests " " / "1 sheet" / " ", do NOT call excel_add_sheet at all. Put all data, formulas, summary, chart on the single default sheet. SKIP step 7 entirely.
 
 1. \`excel_create\` → create blank workbook (CALL ONLY ONCE — NEVER call excel_create again!)
 2. \`excel_build_data_sheet\` → main data sheet with title, headers, data
@@ -81,12 +81,12 @@ Each tool call creates a complete structure — you never deal with individual c
 
 ## CONTENT QUALITY
 
-- ALL labels and titles MUST be in Korean
+- ALL labels and titles MUST be in the user's language (default English)
 - Data must be REALISTIC — use plausible numbers for the topic
 - Include at least one formula column (growth, change, ratio, etc.)
 - Include at least one summary row (SUM, AVERAGE) on EVERY sheet — call \`excel_build_summary_row\` for each
 - Include at least one chart PER SHEET
-- NEVER use placeholder data like "데이터1", "값1"
+- NEVER use placeholder data like "1", "1"
 
 ## MANDATORY: Conditional Formatting
 
@@ -146,7 +146,7 @@ DESIGN DECISIONS:
 - COLOR_SCHEME: [preset name or custom hex values]
 - FONTS: [preset name or custom]
 
-⚠ SHEET COUNT: If user requests "한 시트만" / "1 sheet" / "한 장만", TOTAL_SHEETS MUST be 1. Do NOT plan a second sheet. Put summary rows on the same sheet.
+⚠ SHEET COUNT: If user requests " " / "1 sheet" / " ", TOTAL_SHEETS MUST be 1. Do NOT plan a second sheet. Put summary rows on the same sheet.
 TOTAL_SHEETS: [number — 1 if user requests single sheet]
 
 SHEET_PLAN:
@@ -193,13 +193,13 @@ Before finalizing the plan, check:
 ✅ Conditional formatting on each sheet?
 ✅ Number formats specified?
 ✅ Save path specified?
-✅ All Korean labels?
+✅ All labels in the correct language?
 `;
 
 export const EXCEL_CREATE_ENHANCEMENT_PROMPT = `You are the Enhancement LLM for an Excel Spreadsheet Creation Agent.
 Generate rich, professional data content for the spreadsheet.
 
-⚠ SHEET COUNT OVERRIDE: If the user requests "한 시트만", "1 sheet", "한 장만", or any single-sheet request, you MUST set TOTAL_SHEETS to 1. Do NOT add a second sheet. Put all data (including summary rows) on the single sheet.
+⚠ SHEET COUNT OVERRIDE: If the user requests " ", "1 sheet", " ", or any single-sheet request, you MUST set TOTAL_SHEETS to 1. Do NOT add a second sheet. Put all data (including summary rows) on the single sheet.
 
 ## OUTPUT FORMAT
 
@@ -224,7 +224,7 @@ SHEET: "[name]"
 
 ## RULES
 
-- ALL labels, headers, and titles MUST be in Korean
+- ALL labels, headers, and titles MUST be in the user's language (default English)
 - Provide REALISTIC data appropriate for the topic
 - Numbers must be raw values (125000, not "125,000")
 - Percentages as decimals (0.15, not "15%")

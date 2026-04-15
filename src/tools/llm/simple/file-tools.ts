@@ -1,12 +1,12 @@
 /**
  * File System Tools (LLM Simple)
  *
- * LLM이 파일 시스템과 상호작용할 수 있는 도구들
- * Category: LLM Simple Tools - LLM이 tool_call로 호출, Sub-LLM 없음
+ * LLM      
+ * Category: LLM Simple Tools - LLM tool_call , Sub-LLM 
  */
 
-import * as fs from 'fs/promises';
-import * as path from 'path';
+import * as fs from 'node:fs/promises';
+import * as path from 'node:path';
 import { ToolDefinition } from '../../../types/index.js';
 import { LLMSimpleTool, ToolResult, ToolCategory } from '../../types.js';
 import { logger } from '../../../utils/logger.js';
@@ -288,7 +288,7 @@ async function _executeCreateFile(args: Record<string, unknown>): Promise<ToolRe
     reportError(error, { type: 'toolExecution', tool: 'create_file' }).catch(() => {});
     return {
       success: false,
-      error: `파일 생성 실패 (${displayPath}): ${err.message}`,
+      error: `   (${displayPath}): ${err.message}`,
     };
   }
 }

@@ -1,11 +1,11 @@
 /**
  * PowerShell Tool (Native Windows Only)
  *
- * LLM이 PowerShell 명령어를 실행할 수 있게 해주는 도구
- * Native Windows 환경에서만 등록됨
+ * LLM PowerShell      
+ * Native Windows  
  */
 
-import { spawn } from 'child_process';
+import { spawn } from 'node:child_process';
 import { ToolDefinition } from '../../../types/index.js';
 import { LLMSimpleTool, ToolResult, ToolCategory } from '../../types.js';
 import { logger } from '../../../utils/logger.js';
